@@ -1,0 +1,274 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:i="using:Avalonia.Xaml.Interactivity"
+             xmlns:ia="using:Avalonia.Xaml.Interactions.Core"
+             xmlns:lc="using:dpa.Converters"
+             xmlns:anim="https://github.com/whistyun/AnimatedImage.Avalonia"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="dpa.Views.AnswerView"
+             DataContext="{Binding AnswerViewModel, Source={StaticResource ServiceLocator}}">
+    <UserControl.Resources>
+        <lc:NegativeConverter x:Key="NegativeConverter"></lc:NegativeConverter>
+        <lc:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter"></lc:ByteArrayToBitmapConverter>
+    </UserControl.Resources>
+    
+    <i:Interaction.Behaviors>
+        <ia:EventTriggerBehavior EventName="Initialized">
+            <ia:InvokeCommandAction Command="{Binding OnInitializedCommand}"></ia:InvokeCommandAction>
+        </ia:EventTriggerBehavior>
+    </i:Interaction.Behaviors>
+    
+    <Grid ColumnDefinitions="*,300">
+        <Grid Grid.Column="1"
+              ColumnDefinitions="50,250">
+            <Grid Grid.Column="0"
+                  Margin="0,0,0,0">
+                <Button Width="50"
+                        Margin="0,-400,0,0"
+                        Height="50"
+                        Command="{Binding AIPaneCommand}">
+                    <Image Margin="0,0,0,0"
+                           Height="50" Width="50"
+                           anim:ImageBehavior.AnimatedSource="avares://dpa/Assets/ai_image_1.gif"/>
+                </Button>
+            </Grid>
+            <Grid Grid.Column="1">
+            <Border BorderThickness="1.2" BorderBrush="#EDEDED">
+                <StackPanel>
+                    <Label FontSize="18"
+                           Foreground="#505050"
+                           Margin="10,5,0,0"
+                           Content="每日新闻"
+                           VerticalAlignment="Top" />
+                    <Image asyncImageLoader:ImageLoader.Source="{Binding advise_picture}"
+                           Height="140"
+                           Margin="5,5,5,5"/>
+                    <TextBox
+                        IsReadOnly="True"
+                        FontSize="12"
+                        Watermark="答案在此处显示..."
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Padding="5,5,5,5"
+                        Margin="6,5,6,0"
+                        TextWrapping="Wrap"
+                        MinHeight="80"
+                        MaxHeight="80"
+                        Background="Azure"
+                        Focusable="False"
+                        Text="{Binding advise_content}">
+                    </TextBox>
+                    <HyperlinkButton Foreground="#062FA2"
+                                     NavigateUri="{Binding advise_href}"
+                                     Content="了解详情"
+                                     Margin="180,-5,0,0"
+                                     FontSize="12"></HyperlinkButton>
+                    <Label FontSize="18"
+                           Foreground="#505050"
+                           Margin="10,5,0,0"
+                           Content="答案解析"
+                           VerticalAlignment="Top" />
+                    <TextBox
+                        IsReadOnly="True"
+                        FontSize="15"
+                        Watermark="答案在此处显示..."
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Padding="5,5,5,5"
+                        Margin="6,5,6,0"
+                        TextWrapping="Wrap"
+                        MinHeight="180"
+                        MaxHeight="180"
+                        Focusable="False"
+                        Text="{Binding answer_exercise}">
+                    </TextBox>
+                    <!--<Grid ColumnDefinitions="Auto,*">
+                    <Label Grid.Column="0"
+                           FontSize="18"
+                           Foreground="#505050"
+                           Margin="10,5,-100,0"
+                           Content="AI答疑"
+                           VerticalAlignment="Bottom" />
+                    <Image Grid.Column="1"
+                           Margin="-60,0,0,0"
+                           Height="45" Width="45"
+                           anim:ImageBehavior.AnimatedSource="avares://dpa/Assets/ai_image_1.gif"/>
+                    </Grid>
+                    <TextBox
+                        IsReadOnly="True"
+                        FontSize="15"
+                        Watermark="本应用已连接讯飞星火大模型，欢迎提出您的问题(*^▽^*)"
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Padding="5,5,5,5"
+                        Margin="6,5,6,0"
+                        TextWrapping="Wrap"
+                        MinHeight="150"
+                        MaxHeight="150"
+                        Focusable="False"
+                        Text="{Binding answer_ai}">
+                    </TextBox>
+                    <TextBox
+                        FontSize="15"
+                        TextAlignment="Left"
+                        AcceptsReturn="False"
+                        IsEnabled="{Binding isFocused}"
+                        Watermark="请输入文本..."
+                        KeyDown="InputElement_OnKeyDown"
+                        VerticalContentAlignment="Top"
+                        Padding="5,5,5,5"
+                        Margin="6,5,6,0"
+                        TextWrapping="Wrap"
+                        MinHeight="80"
+                        MaxHeight="80"
+                        Text="{Binding question_user}">
+                    </TextBox>
+                    <Button Background="#3498DB"
+                            Foreground="white"
+                            Width="80"
+                            Margin="0,8,0,0"
+                            FontWeight="Bold"
+                            Command="{Binding SubmitCommand}"
+                            FontSize="18"
+                        >提交</Button>-->
+                </StackPanel>
+            </Border>
+            </Grid>
+            <SplitView Grid.Column="1"
+                       DisplayMode="Overlay"
+                       IsPaneOpen="{Binding isPaneOpened}"
+                       Width="250">
+              <SplitView.Pane>
+                 <Border BorderThickness="1.2" BorderBrush="#EDEDED">
+                     <StackPanel
+                          Background="white"
+                          Width="250"
+                          Margin="-68,0,0,0">
+                         <Grid ColumnDefinitions="Auto,*"
+                          Margin="0,0,0,0">
+                             <Label Grid.Column="0"
+                                    FontSize="18"
+                                    Foreground="#505050"
+                                    Margin="10,5,-100,0"
+                                    Content="AI答疑"
+                                    VerticalAlignment="Bottom" />
+                             <Image Grid.Column="1"
+                                    Margin="-60,0,0,0"
+                                    Height="45" Width="45"
+                                    anim:ImageBehavior.AnimatedSource="avares://dpa/Assets/ai_image_1.gif"/>
+                         </Grid>
+                         <TextBox
+                             IsReadOnly="True"
+                             FontSize="15"
+                             Watermark="本应用已连接讯飞星火大模型，欢迎提出您的问题(*^▽^*)"
+                             TextAlignment="Left"
+                             VerticalContentAlignment="Top"
+                             Padding="5,5,5,5"
+                             Margin="6,5,6,0"
+                             TextWrapping="Wrap"
+                             MinHeight="300"
+                             MaxHeight="300"
+                             Focusable="False"
+                             Text="{Binding answer_ai}">
+                         </TextBox>
+                         <TextBox
+                             FontSize="15"
+                             TextAlignment="Left"
+                             AcceptsReturn="False"
+                             IsEnabled="{Binding isFocused}"
+                             Watermark="请输入文本..."
+                             KeyDown="InputElement_OnKeyDown"
+                             VerticalContentAlignment="Top"
+                             Padding="5,5,5,5"
+                             Margin="6,5,6,0"
+                             TextWrapping="Wrap"
+                             MinHeight="120"
+                             MaxHeight="120"
+                             Text="{Binding question_user}">
+                         </TextBox>
+                         <Button Background="#3498DB"
+                                 Foreground="white"
+                                 Width="80"
+                                 Margin="0,8,0,0"
+                                 FontWeight="Bold"
+                                 Command="{Binding SubmitCommand}"
+                                 FontSize="18"
+                         >提交</Button>
+                     </StackPanel>
+                 </Border>
+             </SplitView.Pane>
+        </SplitView>
+        </Grid>
+    </Grid>
+
+    
+    
+    
+    <!--<Grid Background="Black">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+        </Grid.ColumnDefinitions>
+        
+        <Image
+            Source="{Binding TodayImage.ImageBytes, Converter={StaticResource ByteArrayToBitmapConverter}}"
+            Stretch="UniformToFill" />
+
+        <StackPanel Background="#66000000"
+                    VerticalAlignment="Bottom">
+            <StackPanel Margin="8"
+                        IsVisible="{Binding IsLoading}">
+                <ProgressBar Foreground="White"
+                             IsIndeterminate="{Binding IsLoading}"
+                             Width="50"
+                             Height="50"
+                             Margin="0,0,0,8"
+                             Theme="{DynamicResource ProgressRing}"
+                             ShowProgressText="False" />
+                <Label Foreground="White"
+                       Content="正在载入"
+                       HorizontalAlignment="Center" />
+            </StackPanel>
+
+            <StackPanel Margin="8"
+                        IsVisible="{Binding IsLoading, 
+                         Converter={StaticResource NegativeConverter}}">
+                <Label FontSize="28"
+                       Foreground="White"
+                       Margin="0,0,0,8"
+                       Content="{Binding TodayPoetry.Snippet}" />
+                <StackPanel x:Name="DetailStackLayout">
+                    <Label FontSize="18"
+                           Foreground="White"
+                           Margin="0,0,8,8"
+                           Content="{Binding TodayPoetry.Author}"
+                           VerticalAlignment="Center" />
+                    <Label FontSize="18"
+                           Foreground="White"
+                           Margin="0,0,8,8"
+                           Content="{Binding TodayPoetry.Name}"
+                           VerticalAlignment="Center" />
+                    <Button HorizontalAlignment="Left"
+                            Margin="0,0,0,8"
+                            Content="查看详细"
+                            Command="{Binding ShowDetailCommand}"
+                            VerticalAlignment="Center" />
+                </StackPanel>
+            </StackPanel>
+
+            <StackPanel Background="#66000000">
+                <Label Foreground="White"
+                       Margin="8"
+                       FontSize="12"
+                       Content="{Binding TodayImage.Copyright}">
+                </Label>
+            </StackPanel>
+        </StackPanel>
+    </Grid>-->
+</UserControl>

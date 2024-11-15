@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AvaloniaProject">
+    <option name="projectPerEditor">
+      <map>
+        <entry key="dpa/App.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/AnswerView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/InitializationView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/MainView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/MainWindow.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/ProgressView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/QueryView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/ResultView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/TodayDetailView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/TodayView.axaml" value="dpa/dpa.csproj" />
+        <entry key="dpa/Views/WrongView.axaml" value="dpa/dpa.csproj" />
+      </map>
+    </option>
+  </component>
+</project>
