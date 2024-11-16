@@ -10,7 +10,7 @@ namespace dpa.Library.ViewModels;
 
 public class AnswerViewModel : ViewModelBase
 {
-    /// ////////////////////////////////////////////////////////////////////////////
+     /// ////////////////////////////////////////////////////////////////////////////
     private AIReplyService _aiReplyService;//ai封装服务
     private AdviseService _adviseService;//交通新闻服务
     
@@ -56,6 +56,7 @@ public class AnswerViewModel : ViewModelBase
         set => SetProperty(ref _isPaneOpened, value);
     }
     public ICommand SubmitCommand { get;}//提交问题command
+    public ICommand ClearCommand { get;}//清除记忆command
     public ICommand AIPaneCommand { get;}//ai页面显示开关
     Thread _AILoading;//ai转圈线程
     ManualResetEvent ma;
@@ -88,12 +89,15 @@ public class AnswerViewModel : ViewModelBase
         question_user = String.Empty;
         isFocused = false;
         ma.Set();
-        string answer_ai_1=await _aiReplyService.reply(i,200);
+        string answer_ai_1=await _aiReplyService.reply(i,300);
         ma.Reset();
         answer_ai=answer_ai_1;
         isFocused = true;
     }
-
+    public void Clear_1() //清除记忆函数
+    {
+        _aiReplyService.history_clear();
+    }
     public async void AIPane() //ai页面函数
     {
         isPaneOpened = !isPaneOpened;
@@ -105,6 +109,7 @@ public class AnswerViewModel : ViewModelBase
         _adviseService = new AdviseService();
 
         SubmitCommand = new RelayCommand(Submit);
+        ClearCommand = new RelayCommand(Clear_1);
         AIPaneCommand = new RelayCommand(AIPane);
         isFocused = true;
         isPaneOpened = false;
