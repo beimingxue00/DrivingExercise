@@ -3,53 +3,92 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:lvm="using:dpa.Library.ViewModels"
+             xmlns:asyncImageLoader="clr-namespace:AsyncImageLoader;assembly=AsyncImageLoader.Avalonia"
+             xmlns:converters="clr-namespace:dpa.Converters"
+             xmlns:anim="https://github.com/whistyun/AnimatedImage.Avalonia"
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="dpa.Views.WrongView"
              DataContext="{Binding WrongViewModel, Source={StaticResource ServiceLocator}}">
     
-    <!--<ItemsControl ItemsSource="{Binding FilterViewModelCollection}"
-                  Margin="12">
-        <ItemsControl.ItemTemplate>
-            <DataTemplate>
-                <Grid Margin="0,0,0,12">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="2" />
-                        <ColumnDefinition Width="Auto" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="Auto" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-                    <Border Grid.Row="0"
-                            Grid.Column="0"
-                            Grid.RowSpan="2"
-                            Background="#3498DB">
-                    </Border>
-                    <ComboBox Grid.Row="0"
-                              Grid.Column="1"
-                              Margin="8,0,4,4"
-                              ItemsSource="{x:Static lvm:FilterType.FilterTypes}"
-                              SelectedItem="{Binding Type}"
-                              DisplayMemberBinding="{Binding Name}" />
-                    <TextBox Grid.Row="0"
-                             Grid.Column="2"
-                             Margin="4,0,0,4"
-                             Text="{Binding Content}" />
-                    <StackPanel Grid.Row="1"
-                                Grid.Column="1"
-                                Grid.ColumnSpan="2"
-                                Orientation="Horizontal">
-                        <Button Margin="8,4,4,0"
-                                Content="添加"
-                                Command="{Binding AddCommand}" />
-                        <Button Margin="4,4,0,0"
-                                Content="删除"
-                                Command="{Binding RemoveCommand}" />
-                    </StackPanel>
-                </Grid>
-            </DataTemplate>
-        </ItemsControl.ItemTemplate>
-    </ItemsControl>-->
+    
+    
+    <UserControl.Resources>
+        <converters:NegativeConverter x:Key="NegativeConverter"></converters:NegativeConverter>
+        <converters:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter"></converters:ByteArrayToBitmapConverter>
+    </UserControl.Resources>
+    
+    <Interaction.Behaviors>
+        <EventTriggerBehavior EventName="Initialized">
+            <InvokeCommandAction Command="{Binding OnInitializedCommand}"></InvokeCommandAction>
+        </EventTriggerBehavior>
+    </Interaction.Behaviors>
+    <Grid ColumnDefinitions="*,300">
+        <Grid Grid.Column="1"
+              ColumnDefinitions="50,250">
+            <Grid Grid.Column="0"
+                  Margin="0,0,0,0">
+            </Grid>
+            <Grid Grid.Column="1">
+            <Border BorderThickness="1.2" BorderBrush="#EDEDED">
+                <StackPanel>
+                    <Label FontSize="18"
+                           Foreground="#505050"
+                           Margin="10,5,0,0"
+                           Content="公益广告"
+                           VerticalAlignment="Top" />
+                    <Image asyncImageLoader:ImageLoader.Source="avares://dpa/Assets/background.png"
+                           Height="180"
+                           Margin="5,5,5,5"/>
+                    <TextBox
+                        IsReadOnly="True"
+                        FontSize="12"
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Padding="5,5,5,5"
+                        Margin="6,5,6,0"
+                        TextWrapping="Wrap"
+                        MinHeight="80"
+                        MaxHeight="80"
+                        Background="Azure"
+                        Focusable="False"
+                        Text="“安全驾驶，不仅是对自己负责，更是对他人生命的尊重。每一次出行，都是一次生命的旅行。让我们从自身做起，遵守交通规则，文明礼让，共同营造一个安全、有序、和谐的交通环境。”">
+                    </TextBox>
+                    <Label FontSize="18"
+                           Foreground="#505050"
+                           Margin="10,5,0,0"
+                           Content="错题列表"
+                           VerticalAlignment="Top" />
+                    <TextBox
+                        IsReadOnly="True"
+                        FontSize="15"
+                        Watermark="此处显示错题列表"
+                        TextAlignment="Left"
+                        VerticalContentAlignment="Top"
+                        Padding="5,5,5,5"
+                        Margin="6,5,6,0"
+                        TextWrapping="Wrap"
+                        MinHeight="180"
+                        MaxHeight="180"
+                        Focusable="False"
+                        Text="{Binding answer_exercise}">
+                    </TextBox>
+                </StackPanel>
+            </Border>
+            </Grid>
+            <SplitView Grid.Column="1"
+                       DisplayMode="Overlay"
+                       IsPaneOpen="{Binding isPaneOpened}"
+                       Width="250">
+              <SplitView.Pane>
+                 <Border BorderThickness="1.2" BorderBrush="#EDEDED">
+                 </Border>
+             </SplitView.Pane>
+        </SplitView>
+        </Grid>
+    </Grid>
+
+    
+    
+    
+    
 </UserControl>
