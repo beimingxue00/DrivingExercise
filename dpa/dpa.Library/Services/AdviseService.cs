@@ -50,8 +50,7 @@ public class AdviseService
         var anodes_img= doc.DocumentNode.SelectNodes("//img");
         foreach (var anode in anodes)
         {
-            string href = anode.GetAttributeValue("class", "");
-            if (!href.Contains("break"))
+            if (!anode.GetDirectInnerText().Equals(""))
             {
                 content = anode.GetDirectInnerText();
                 break;
