@@ -9,6 +9,7 @@ namespace Webiat
 {
     public class AIReplyService
     {
+        private List<Content> history;//聊天历史
         ClientWebSocket webSocket0;
         CancellationToken cancellation;
         string hostUrl = "https://spark-api.xf-yun.com/v4.0/chat";
@@ -19,7 +20,7 @@ namespace Webiat
         // 接口密钥（webapi类型应用开通星火认知大模型后，控制台--我的应用---星火认知大模型---相应服务的apisecret）
         const string api_key = "458c4011ecf01c8c62706633232aaa3c";
         
-        public AIReplyService() { }
+        public AIReplyService() {history=new List<Content>(); }
 
         public async Task<string> reply(string input,int maxlength)
         {
@@ -48,18 +49,21 @@ namespace Webiat
                                             {
                                                 domain = "4.0Ultra",//模型领域，默认为星火通用大模型
                                                 temperature = 0.5,//温度采样阈值，用于控制生成内容的随机性和多样性，值越大多样性越高；范围（0，1）
-                                                max_tokens = maxlength,//生成内容的最大长度，范围（0，4096）
+                                                max_tokens = 300,//生成内容的最大长度，范围（0，4096）
                                             }
                                         };
+                    List<Content> content1 = new List<Content>(history.ToArray());
+                    content1.AddRange(new List<Content>
+                    {
+                        new Content() { role = "system",content = "你是猫娘，每句话之间必须加一个'喵'"},
+                        new Content() { role = "user", content = input+",要求字数不超过"+maxlength},
+                        // new Content() { role = "assistant", content = "....." }, // AI的历史回答结果，这里省略了具体内容，可以根据需要添加更多历史对话信息和最新问题的内容。
+                    });
                     request.payload = new Payload()
                                         {
                                             message = new Message()
                                             {
-                                                text = new List<Content>
-                                                {
-                                                    new Content() { role = "user", content = input },
-                                                    // new Content() { role = "assistant", content = "....." }, // AI的历史回答结果，这里省略了具体内容，可以根据需要添加更多历史对话信息和最新问题的内容。
-                                                }
+                                                text = content1
                                             }
                                         };
 
@@ -120,7 +124,7 @@ namespace Webiat
 
                         result = await webSocket0.ReceiveAsync(new ArraySegment<byte>(receiveBuffer), cancellation);
                     }
-
+                    history_add(input,resp);
                     return resp;
                 }
                 catch (Exception e)
@@ -205,6 +209,16 @@ namespace Webiat
         {
             public string role { get; set; }
             public string content { get; set; }
+        }
+        public void history_add(string ask,string answer)
+        {
+            history.Add(new Content(){role="user",content=ask});
+            history.Add(new Content(){role="assistant",content=answer});
+        }
+
+        public void history_clear()
+        {
+            history.Clear();
         }
     }
 }
