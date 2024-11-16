@@ -19,14 +19,24 @@ public class AdviseService
         var doc = new HtmlDocument();
         doc.LoadHtml(strBuff); 
         string x="";
+        Random ran = new Random();
+        int n1 = ran.Next(50);
+        int n2 = 0;
         var anodes = doc.DocumentNode.SelectNodes("//a");
         foreach (var anode in anodes)
         {
            string href = anode.GetAttributeValue("href", "");
            if (href.Contains("content_"))
            {
-             x = href;
-             break;
+               if (n2 == n1)
+               {
+                   x = href;
+                   break;
+               }
+               else
+               {
+                   n2++;
+               }
            }
        }
         url = x;
