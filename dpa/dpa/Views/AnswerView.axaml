@@ -126,14 +126,28 @@
                         MaxHeight="80"
                         Text="{Binding question_user}">
                     </TextBox>
-                    <Button Background="#3498DB"
-                            Foreground="white"
-                            Width="80"
-                            Margin="0,8,0,0"
-                            FontWeight="Bold"
-                            Command="{Binding SubmitCommand}"
-                            FontSize="18"
-                        >提交</Button>-->
+                     <Grid ColumnDefinitions="*,*"
+                               Margin="0,8,0,0"
+                               >
+                             <Button Grid.Column="0" 
+                                     Background="#3498DB"
+                                     Foreground="white"
+                                     Margin="0,0,0,0"
+                                     Width="100"
+                                     FontWeight="Bold"
+                                     Command="{Binding SubmitCommand}"
+                                     FontSize="18"
+                             >提交问题</Button>
+                             <Button Grid.Column="1" 
+                                     Background="#EDEDED"
+                                     Foreground="#878787"
+                                     Margin="0,0,0,0"
+                                     Width="100"
+                                     FontWeight="Bold"
+                                     Command="{Binding ClearCommand}"
+                                     FontSize="18"
+                             >清除记忆</Button>
+                         </Grid>
                 </StackPanel>
             </Border>
             </Grid>
