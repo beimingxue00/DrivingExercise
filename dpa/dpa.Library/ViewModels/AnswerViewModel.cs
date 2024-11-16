@@ -57,13 +57,40 @@ public class AnswerViewModel : ViewModelBase
     }
     public ICommand SubmitCommand { get;}//提交问题command
     public ICommand AIPaneCommand { get;}//ai页面显示开关
+    Thread _AILoading;//ai转圈线程
+    ManualResetEvent ma;
+    public void AILoading()//ai转圈
+    {
+        while (true)
+        {
+            //状态1
+            ma.WaitOne();
+            answer_ai = "AI分析中，请稍候";
+            Thread.Sleep(300);
+            //状态2
+            ma.WaitOne();
+            answer_ai = "AI分析中，请稍候.";
+            Thread.Sleep(300);
+            //状态3
+            ma.WaitOne();
+            answer_ai = "AI分析中，请稍候..";
+            Thread.Sleep(300);
+            //状态4
+            ma.WaitOne();
+            answer_ai = "AI分析中，请稍候...";
+            Thread.Sleep(300);
+        }
+    }
     public async void Submit()//提交问题函数
     {
-        answer_ai = "AI分析中，请稍候......";
+        answer_ai = "AI分析中，请稍候...";
         string i = question_user;
         question_user = String.Empty;
         isFocused = false;
-        answer_ai=await _aiReplyService.reply(i,500);
+        ma.Set();
+        string answer_ai_1=await _aiReplyService.reply(i,200);
+        ma.Reset();
+        answer_ai=answer_ai_1;
         isFocused = true;
     }
 
@@ -81,6 +108,10 @@ public class AnswerViewModel : ViewModelBase
         AIPaneCommand = new RelayCommand(AIPane);
         isFocused = true;
         isPaneOpened = false;
+        _AILoading = new Thread(AILoading);
+        ma = new ManualResetEvent(false);
+        ma.Reset();
+        _AILoading.Start();
         AdviseInitial();//新闻内容拉取
     }
     //新闻内容初始化
@@ -92,6 +123,7 @@ public class AnswerViewModel : ViewModelBase
         _advise_href = str[2];
     }
   
+    
     
     
     
