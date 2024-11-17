@@ -13,6 +13,7 @@ public class AnswerViewModel : ViewModelBase
      /// ////////////////////////////////////////////////////////////////////////////
     private AIReplyService _aiReplyService;//ai封装服务
     private AdviseService _adviseService;//交通新闻服务
+    private CloudService _cloudService;//云存储服务
     
     private string _answer_exercise;//习题答案
     public string answer_exercise {
@@ -97,6 +98,7 @@ public class AnswerViewModel : ViewModelBase
     public void Clear_1() //清除记忆函数
     {
         _aiReplyService.history_clear();
+        answer_ai = "";
     }
     public async void AIPane() //ai页面函数
     {
@@ -107,6 +109,7 @@ public class AnswerViewModel : ViewModelBase
         _contentNavigationService = contentNavigationService;
         _aiReplyService = new AIReplyService();
         _adviseService = new AdviseService();
+        _cloudService = new CloudService();
 
         SubmitCommand = new RelayCommand(Submit);
         ClearCommand = new RelayCommand(Clear_1);
