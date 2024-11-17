@@ -19,7 +19,9 @@ public class CloudService
         System.IO.FileInfo myFile = new System.IO.FileInfo("exercises.txt"); 
         StreamWriter sw = myFile.AppendText();
  
-        string[] strs = { "——————————————————————————————————————————————————————————————————————", "问题ID："+exercise.Id,exercise.question,
+        string[] strs = { "——————————————————————————————————————————————————————————————————————", 
+            System.DateTime.Now.ToString("d"),
+            "问题ID："+exercise.Id,exercise.question,
             "A、"+exercise.item1,
             "B、"+exercise.item2,
             "C、"+exercise.item3,
