@@ -9,86 +9,91 @@
              mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
              x:Class="dpa.Views.WrongView"
              DataContext="{Binding WrongViewModel, Source={StaticResource ServiceLocator}}">
-    
-    
-    
+
     <UserControl.Resources>
-        <converters:NegativeConverter x:Key="NegativeConverter"></converters:NegativeConverter>
-        <converters:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter"></converters:ByteArrayToBitmapConverter>
+        <converters:NegativeConverter x:Key="NegativeConverter" />
+        <converters:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter" />
     </UserControl.Resources>
-    
+
     <Interaction.Behaviors>
         <EventTriggerBehavior EventName="Initialized">
-            <InvokeCommandAction Command="{Binding OnInitializedCommand}"></InvokeCommandAction>
+            <InvokeCommandAction Command="{Binding OnInitializedCommand}" />
         </EventTriggerBehavior>
     </Interaction.Behaviors>
+
     <Grid ColumnDefinitions="*,300">
-        <Grid Grid.Column="1"
-              ColumnDefinitions="50,250">
-            <Grid Grid.Column="0"
-                  Margin="0,0,0,0">
-            </Grid>
+        <Grid Grid.Column="1" ColumnDefinitions="50,250">
+            <Grid Grid.Column="0" Margin="0,0,0,0" />
             <Grid Grid.Column="1">
-            <Border BorderThickness="1.2" BorderBrush="#EDEDED">
-                <StackPanel>
-                    <Label FontSize="18"
-                           Foreground="#505050"
-                           Margin="10,5,0,0"
-                           Content="公益广告"
-                           VerticalAlignment="Top" />
-                    <Image asyncImageLoader:ImageLoader.Source="avares://dpa/Assets/background.png"
-                           Height="180"
-                           Margin="5,5,5,5"/>
-                    <TextBox
-                        IsReadOnly="True"
-                        FontSize="12"
-                        TextAlignment="Left"
-                        VerticalContentAlignment="Top"
-                        Padding="5,5,5,5"
-                        Margin="6,5,6,0"
-                        TextWrapping="Wrap"
-                        MinHeight="80"
-                        MaxHeight="80"
-                        Background="Azure"
-                        Focusable="False"
-                        Text="“安全驾驶，不仅是对自己负责，更是对他人生命的尊重。每一次出行，都是一次生命的旅行。让我们从自身做起，遵守交通规则，文明礼让，共同营造一个安全、有序、和谐的交通环境。”">
-                    </TextBox>
-                    <Label FontSize="18"
-                           Foreground="#505050"
-                           Margin="10,5,0,0"
-                           Content="错题列表"
-                           VerticalAlignment="Top" />
-                    <TextBox
-                        IsReadOnly="True"
-                        FontSize="15"
-                        Watermark="此处显示错题列表"
-                        TextAlignment="Left"
-                        VerticalContentAlignment="Top"
-                        Padding="5,5,5,5"
-                        Margin="6,5,6,0"
-                        TextWrapping="Wrap"
-                        MinHeight="180"
-                        MaxHeight="180"
-                        Focusable="False"
-                        Text="{Binding answer_exercise}">
-                    </TextBox>
-                </StackPanel>
-            </Border>
+                <Border BorderThickness="1.2" BorderBrush="#EDEDED">
+                    <StackPanel>
+                        <Label FontSize="18"
+                               Foreground="#505050"
+                               Margin="10,5,0,0"
+                               Content="公益广告"
+                               VerticalAlignment="Top" />
+                        <Image asyncImageLoader:ImageLoader.Source="avares://dpa/Assets/background.png"
+                               Height="180"
+                               Margin="5,5,5,5" />
+                        <TextBox IsReadOnly="True"
+                                 FontSize="12"
+                                 TextAlignment="Left"
+                                 VerticalContentAlignment="Top"
+                                 Padding="5,5,5,5"
+                                 Margin="6,5,6,0"
+                                 TextWrapping="Wrap"
+                                 MinHeight="80"
+                                 MaxHeight="80"
+                                 Background="Azure"
+                                 Focusable="False"
+                                 Text="“安全驾驶，不仅是对自己负责，更是对他人生命的尊重。每一次出行，都是一次生命的旅行。让我们从自身做起，遵守交通规则，文明礼让，共同营造一个安全、有序、和谐的交通环境。”" />
+                        <Label FontSize="18"
+                               Foreground="#505050"
+                               Margin="10,5,0,0"
+                               Content="错题列表"
+                               VerticalAlignment="Top" />
+
+                        <!-- 显示加载状态 -->
+                        <TextBlock FontSize="15"
+                                   TextAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Padding="5,5,5,5"
+                                   Margin="6,5,6,0"
+                                   TextWrapping="Wrap"
+                                   MinHeight="180"
+                                   MaxHeight="180"
+                                   Focusable="False"
+                                   Text="{Binding Status}" />
+
+                        <!-- 显示错题列表 -->
+                        <TextBlock FontSize="15"
+                                   TextAlignment="Left"
+                                   VerticalAlignment="Top"
+                                   Padding="5,5,5,5"
+                                   Margin="6,5,6,0"
+                                   TextWrapping="Wrap"
+                                   MinHeight="180"
+                                   MaxHeight="180"
+                                   Focusable="False">
+                            <TextBlock.Text>
+                                <!-- 使用 StringFormat 将 ExerciseQuestions 中的内容格式化为字符串 -->
+                                <MultiBinding StringFormat="{}{0}">
+                                    <Binding Path="ExerciseQuestions" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+
+                        
+                    </StackPanel>
+                </Border>
             </Grid>
-            <SplitView Grid.Column="1"
-                       DisplayMode="Overlay"
-                       IsPaneOpen="{Binding isPaneOpened}"
-                       Width="250">
-              <SplitView.Pane>
-                 <Border BorderThickness="1.2" BorderBrush="#EDEDED">
-                 </Border>
-             </SplitView.Pane>
-        </SplitView>
+
+            <!-- SplitView Pane -->
+            <SplitView Grid.Column="1" DisplayMode="Overlay" IsPaneOpen="{Binding isPaneOpened}" Width="250">
+                <SplitView.Pane>
+                    <Border BorderThickness="1.2" BorderBrush="#EDEDED" />
+                </SplitView.Pane>
+            </SplitView>
         </Grid>
     </Grid>
-
-    
-    
-    
-    
 </UserControl>
