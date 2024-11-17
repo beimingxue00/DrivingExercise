@@ -55,6 +55,8 @@ public class ServiceLocator {
     
     public ProgressViewModel ProgressViewModel =>
         _serviceProvider.GetRequiredService<ProgressViewModel>();
+    
+    
 
     public ServiceLocator() {
         var serviceCollection = new ServiceCollection();
