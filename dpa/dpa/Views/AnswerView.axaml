@@ -126,28 +126,14 @@
                         MaxHeight="80"
                         Text="{Binding question_user}">
                     </TextBox>
-                     <Grid ColumnDefinitions="*,*"
-                               Margin="0,8,0,0"
-                               >
-                             <Button Grid.Column="0" 
-                                     Background="#3498DB"
-                                     Foreground="white"
-                                     Margin="0,0,0,0"
-                                     Width="100"
-                                     FontWeight="Bold"
-                                     Command="{Binding SubmitCommand}"
-                                     FontSize="18"
-                             >提交问题</Button>
-                             <Button Grid.Column="1" 
-                                     Background="#EDEDED"
-                                     Foreground="#878787"
-                                     Margin="0,0,0,0"
-                                     Width="100"
-                                     FontWeight="Bold"
-                                     Command="{Binding ClearCommand}"
-                                     FontSize="18"
-                             >清除记忆</Button>
-                         </Grid>
+                    <Button Background="#3498DB"
+                            Foreground="white"
+                            Width="80"
+                            Margin="0,8,0,0"
+                            FontWeight="Bold"
+                            Command="{Binding SubmitCommand}"
+                            FontSize="18"
+                        >提交</Button>-->
                 </StackPanel>
             </Border>
             </Grid>
@@ -203,86 +189,32 @@
                              MaxHeight="120"
                              Text="{Binding question_user}">
                          </TextBox>
-                         <Button Background="#3498DB"
-                                 Foreground="white"
-                                 Width="80"
-                                 Margin="0,8,0,0"
-                                 FontWeight="Bold"
-                                 Command="{Binding SubmitCommand}"
-                                 FontSize="18"
-                         >提交</Button>
+                         <Grid ColumnDefinitions="*,*"
+                               Margin="0,8,0,0"
+                               >
+                             <Button Grid.Column="0" 
+                                     Background="#3498DB"
+                                     Foreground="white"
+                                     Margin="0,0,0,0"
+                                     Width="100"
+                                     FontWeight="Bold"
+                                     Command="{Binding SubmitCommand}"
+                                     FontSize="18"
+                             >提交问题</Button>
+                             <Button Grid.Column="1" 
+                                     Background="#EDEDED"
+                                     Foreground="#878787"
+                                     Margin="0,0,0,0"
+                                     Width="100"
+                                     FontWeight="Bold"
+                                     Command="{Binding ClearCommand}"
+                                     FontSize="18"
+                             >清除记忆</Button>
+                         </Grid>
                      </StackPanel>
                  </Border>
              </SplitView.Pane>
         </SplitView>
         </Grid>
     </Grid>
-
-    
-    
-    
-    <!--<Grid Background="Black">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*" />
-        </Grid.RowDefinitions>
-
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="*" />
-        </Grid.ColumnDefinitions>
-        
-        <Image
-            Source="{Binding TodayImage.ImageBytes, Converter={StaticResource ByteArrayToBitmapConverter}}"
-            Stretch="UniformToFill" />
-
-        <StackPanel Background="#66000000"
-                    VerticalAlignment="Bottom">
-            <StackPanel Margin="8"
-                        IsVisible="{Binding IsLoading}">
-                <ProgressBar Foreground="White"
-                             IsIndeterminate="{Binding IsLoading}"
-                             Width="50"
-                             Height="50"
-                             Margin="0,0,0,8"
-                             Theme="{DynamicResource ProgressRing}"
-                             ShowProgressText="False" />
-                <Label Foreground="White"
-                       Content="正在载入"
-                       HorizontalAlignment="Center" />
-            </StackPanel>
-
-            <StackPanel Margin="8"
-                        IsVisible="{Binding IsLoading, 
-                         Converter={StaticResource NegativeConverter}}">
-                <Label FontSize="28"
-                       Foreground="White"
-                       Margin="0,0,0,8"
-                       Content="{Binding TodayPoetry.Snippet}" />
-                <StackPanel x:Name="DetailStackLayout">
-                    <Label FontSize="18"
-                           Foreground="White"
-                           Margin="0,0,8,8"
-                           Content="{Binding TodayPoetry.Author}"
-                           VerticalAlignment="Center" />
-                    <Label FontSize="18"
-                           Foreground="White"
-                           Margin="0,0,8,8"
-                           Content="{Binding TodayPoetry.Name}"
-                           VerticalAlignment="Center" />
-                    <Button HorizontalAlignment="Left"
-                            Margin="0,0,0,8"
-                            Content="查看详细"
-                            Command="{Binding ShowDetailCommand}"
-                            VerticalAlignment="Center" />
-                </StackPanel>
-            </StackPanel>
-
-            <StackPanel Background="#66000000">
-                <Label Foreground="White"
-                       Margin="8"
-                       FontSize="12"
-                       Content="{Binding TodayImage.Copyright}">
-                </Label>
-            </StackPanel>
-        </StackPanel>
-    </Grid>-->
 </UserControl>
