@@ -32,8 +32,8 @@
                                Margin="10,5,0,0"
                                Content="公益广告"
                                VerticalAlignment="Top" />
-                        <Image asyncImageLoader:ImageLoader.Source="avares://dpa/Assets/background.png"
-                               Height="180"
+                        <Image asyncImageLoader:ImageLoader.Source="avares://dpa/Assets/jiaotonganquan.png"
+                               Height="120"
                                Margin="5,5,5,5" />
                         <TextBox IsReadOnly="True"
                                  FontSize="12"
