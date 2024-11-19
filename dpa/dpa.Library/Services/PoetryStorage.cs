@@ -6,7 +6,7 @@ using SQLite;
 namespace dpa.Library.Services;
 
 public class PoetryStorage : IPoetryStorage {
-    //为什么连不上数据库呢？
+       //为什么连不上数据库呢？
     public const int NumberPoetry = 30;
 
     public const string DbName = "poetrydb.sqlite3";
@@ -51,19 +51,22 @@ public class PoetryStorage : IPoetryStorage {
             .ToListAsync();
     
     //得到错题列表的方法
-    public async Task<List<string>> GetExerciseQuestionsAsync(
-        Expression<Func<Exercise, bool>> where, int skip, int take)
+    public async Task<List<Exercise>> GetExerciseQuestionsAsync(Expression<Func<Exercise, bool>> where, int skip, int take)
     {
-        // 从数据库中获取符合条件的 Exercises 列表
-        var exercises = await Connection.Table<Exercise>()
-            .Where(where)  // 应用筛选条件
-            .Skip(skip)    // 分页：跳过前 `skip` 条数据
-            .Take(take)    // 分页：获取 `take` 条数据
-            .ToListAsync(); // 异步转换为列表
+        // 如果没有筛选条件，则查询所有记录
+        var exercisesQuery = Connection.Table<Exercise>();
 
-        // 提取每个 Exercise 的 Question 字段，并返回一个字符串列表
-        return exercises.Select(e => e.question).ToList();
+        if (where != null)
+        {
+            exercisesQuery = exercisesQuery.Where(where);  // 应用筛选条件
+        }
+
+        var exercises = await exercisesQuery.Skip(skip).Take(take).ToListAsync();  // 执行分页
+
+        return exercises;  // 直接返回 Exercise 对象列表
     }
+
+
 
 
     
