@@ -10,7 +10,7 @@
              x:Class="dpa.Views.WrongView"
              DataContext="{Binding WrongViewModel, Source={StaticResource ServiceLocator}}">
 
-    <UserControl.Resources>
+   <UserControl.Resources>
         <converters:NegativeConverter x:Key="NegativeConverter" />
         <converters:ByteArrayToBitmapConverter x:Key="ByteArrayToBitmapConverter" />
     </UserControl.Resources>
@@ -53,37 +53,31 @@
                                Content="错题列表"
                                VerticalAlignment="Top" />
 
-                        <!-- 显示加载状态 -->
-                        <TextBlock FontSize="15"
-                                   TextAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Padding="5,5,5,5"
-                                   Margin="6,5,6,0"
-                                   TextWrapping="Wrap"
-                                   MinHeight="180"
-                                   MaxHeight="180"
-                                   Focusable="False"
-                                   Text="{Binding Status}" />
-
-                        <!-- 显示错题列表 -->
-                        <TextBlock FontSize="15"
-                                   TextAlignment="Left"
-                                   VerticalAlignment="Top"
-                                   Padding="5,5,5,5"
-                                   Margin="6,5,6,0"
-                                   TextWrapping="Wrap"
-                                   MinHeight="180"
-                                   MaxHeight="180"
-                                   Focusable="False">
-                            <TextBlock.Text>
-                                <!-- 使用 StringFormat 将 ExerciseQuestions 中的内容格式化为字符串 -->
-                                <MultiBinding StringFormat="{}{0}">
-                                    <Binding Path="ExerciseQuestions" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-
-                        
+                        <!-- 错题列表控件 -->
+                        <ScrollViewer VerticalScrollBarVisibility="Auto"
+                                      HorizontalScrollBarVisibility="Disabled"
+                                      Margin="5,10,5,0"
+                                      Height="300"> <!-- 设置固定高度为300像素 -->
+                            <ItemsControl ItemsSource="{Binding ExerciseQuestions}">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <VirtualizingStackPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <!-- 使用按钮并绑定命令，同时传递题目的 Id 作为参数 -->
+                                        <Button HorizontalContentAlignment="Left"
+                                                Margin="0,0,0,8"
+                                                MinWidth="250"
+                                                Content="{Binding question}" 
+                                                Command="{Binding DataContext.OnQuestionClickedCommand, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                                                CommandParameter="{Binding Id}" 
+                                                VerticalAlignment="Center" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
                     </StackPanel>
                 </Border>
             </Grid>
