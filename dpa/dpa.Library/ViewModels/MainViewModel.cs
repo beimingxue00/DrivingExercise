@@ -33,7 +33,7 @@ public class MainViewModel : ViewModelBase {
 
     public ICommand OpenPaneCommand { get; }
 
-    public void OpenPane() => IsPaneOpen = true;
+    public void OpenPane() => IsPaneOpen = !IsPaneOpen;
 
     public ICommand ClosePaneCommand { get; }
 
